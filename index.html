@@ -21,35 +21,43 @@
     </style>
 </head>
 <body>
-    <video autoplay loop controls="false" id="rickroll">
+    <div class="overlay" id="overlay"></div>
+    <video autoplay loop muted playsinline controls="false" id="rickroll">
         <source src="https://github.com/skibidi-sigma291/rickroll/raw/refs/heads/main/video.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
     <script>
         let video = document.getElementById("rickroll");
-        
-        // Disable video controls
-        video.controls = false;
+        let overlay = document.getElementById("overlay");
 
-        // Prevent pause
-        video.addEventListener("pause", function() {
+        // Force play even if paused
+        video.onpause = function() {
             video.play();
+        };
+
+        // Unmute when user clicks anywhere
+        overlay.addEventListener("click", function() {
+            video.muted = false;
+            video.play();
+            overlay.style.display = "none";
         });
 
-        // Disable keyboard shortcuts
-        document.addEventListener("keydown", function(event) {
-            event.preventDefault();
-        });
-
-        document.addEventListener("contextmenu", function(event) {
-            event.preventDefault();
-        });
-
+        // Prevent tab-switch escape
         document.addEventListener("visibilitychange", function() {
             if (document.hidden) {
                 window.location.reload();
             }
+        });
+
+        // Block right-click (so they can't inspect element)
+        document.addEventListener("contextmenu", function(event) {
+            event.preventDefault();
+        });
+
+        // Block keyboard shortcuts
+        document.addEventListener("keydown", function(event) {
+            event.preventDefault();
         });
     </script>
 </body>

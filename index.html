@@ -13,21 +13,12 @@
         }
         body {
             background: black;
-        }
-        video {
-            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
-            object-fit: cover;
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none; /* Prevent interaction */
         }
         #startBtn {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             padding: 15px 30px;
             font-size: 20px;
             color: white;
@@ -40,29 +31,46 @@
         #startBtn:hover {
             background: darkred;
         }
+        #videoContainer {
+            display: none; /* Hidden until button is pressed */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     </style>
 </head>
 <body>
+
     <button id="startBtn">Tap to Start</button>
-    <video id="rickroll" loop muted playsinline>
-        <source src="https://github.com/skibidi-sigma291/rickroll/raw/refs/heads/main/video.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+
+    <div id="videoContainer">
+        <video id="rickroll" loop playsinline>
+            <source src="https://github.com/skibidi-sigma291/rickroll/raw/refs/heads/main/video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
 
     <script>
         let video = document.getElementById("rickroll");
         let startBtn = document.getElementById("startBtn");
+        let videoContainer = document.getElementById("videoContainer");
 
-        // Ensure video is ready before attempting to play
-        video.addEventListener("canplay", () => {
-            video.play();
-        });
-
-        // Require interaction to unmute on mobile
+        // Wait until button is clicked to load & play the video
         startBtn.addEventListener("click", function() {
+            videoContainer.style.display = "block"; // Show video
             video.muted = false;
             video.play();
-            startBtn.style.display = "none"; // Hide button after click
+            startBtn.style.display = "none"; // Hide button
         });
 
         // Prevent pausing
@@ -87,5 +95,6 @@
             event.preventDefault();
         });
     </script>
+
 </body>
 </html>

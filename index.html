@@ -9,6 +9,10 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            user-select: none;
+        }
+        body {
+            background: black;
         }
         video {
             width: 100vw;
@@ -17,31 +21,54 @@
             position: fixed;
             top: 0;
             left: 0;
+            pointer-events: none; /* Prevent interaction */
+        }
+        #startBtn {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 30px;
+            font-size: 20px;
+            color: white;
+            background: red;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.3s;
+        }
+        #startBtn:hover {
+            background: darkred;
         }
     </style>
 </head>
 <body>
-    <div class="overlay" id="overlay"></div>
-    <video autoplay loop muted playsinline controls="false" id="rickroll">
+    <button id="startBtn">Tap to Start</button>
+    <video id="rickroll" loop muted playsinline>
         <source src="https://github.com/skibidi-sigma291/rickroll/raw/refs/heads/main/video.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
     <script>
         let video = document.getElementById("rickroll");
-        let overlay = document.getElementById("overlay");
+        let startBtn = document.getElementById("startBtn");
 
-        // Force play even if paused
+        // Ensure video is ready before attempting to play
+        video.addEventListener("canplay", () => {
+            video.play();
+        });
+
+        // Require interaction to unmute on mobile
+        startBtn.addEventListener("click", function() {
+            video.muted = false;
+            video.play();
+            startBtn.style.display = "none"; // Hide button after click
+        });
+
+        // Prevent pausing
         video.onpause = function() {
             video.play();
         };
-
-        // Unmute when user clicks anywhere
-        overlay.addEventListener("click", function() {
-            video.muted = false;
-            video.play();
-            overlay.style.display = "none";
-        });
 
         // Prevent tab-switch escape
         document.addEventListener("visibilitychange", function() {

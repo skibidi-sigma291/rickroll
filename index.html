@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Rickrolled</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        video {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <video autoplay loop controls="false" id="rickroll">
+        <source src="https://github.com/skibidi-sigma291/rickroll/raw/refs/heads/main/video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        let video = document.getElementById("rickroll");
+        
+        // Disable video controls
+        video.controls = false;
+
+        // Prevent pause
+        video.addEventListener("pause", function() {
+            video.play();
+        });
+
+        // Disable keyboard shortcuts
+        document.addEventListener("keydown", function(event) {
+            event.preventDefault();
+        });
+
+        document.addEventListener("contextmenu", function(event) {
+            event.preventDefault();
+        });
+
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                window.location.reload();
+            }
+        });
+    </script>
+</body>
+</html>
